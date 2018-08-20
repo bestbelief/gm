@@ -21,6 +21,6 @@ public class EmailUser {
     @ApiModelProperty(value = "用户密码",required = true,position = 1,example = "2562957962")
     @NotEmpty(message = "密码不能为空")
     @Length(min = 6, max = 16, message = "密码长度为6-16位")
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "密码只能是数字和字母，区别大小写！")
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "密码只能是数字和字母，区别大小写")
     private String password;
 }
