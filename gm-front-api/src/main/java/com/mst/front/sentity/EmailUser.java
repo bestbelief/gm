@@ -18,9 +18,36 @@ public class EmailUser {
     @Email(message = "邮箱格式不合法")
     private String email;
 
-    @ApiModelProperty(value = "用户密码",required = true,position = 1,example = "2562957962")
+    @ApiModelProperty(value = "用户密码",required = true,position = 1,example = "2562957962qq")
     @NotEmpty(message = "密码不能为空")
     @Length(min = 6, max = 16, message = "密码长度为6-16位")
     @Pattern(regexp = "[a-zA-Z0-9]*", message = "密码只能是数字和字母，区别大小写")
     private String password;
+
+    public EmailUser() {
+    }
+
+    public String getvCode() {
+        return vCode;
+    }
+
+    public void setvCode(String vCode) {
+        this.vCode = vCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

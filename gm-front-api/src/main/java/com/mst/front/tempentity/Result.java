@@ -36,17 +36,17 @@ public class Result<T> {
     }
     /**
      * 返回的状态的结果集合
-     * @param codeConstant 状态常量
+     * @param statuCodeEnum 状态常量
      * @param msg 提示消息
      * @param results 结果集
      */
-    public Result(StatuCodeEnum codeConstant,String msg,T results) {
-        this.retCode = codeConstant.getRetCode();
-        this.status = codeConstant.getStatus();
+    public Result(StatuCodeEnum statuCodeEnum,String msg,T results) {
+        this.retCode = statuCodeEnum.getRetCode();
+        this.status = statuCodeEnum.getStatus();
         if (msg!=null) {
             this.msg = msg;
         }else {
-            this.msg=codeConstant.getMsg();
+            this.msg=statuCodeEnum.getMsg();
         }
         this.results = results;
     }

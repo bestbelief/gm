@@ -1,4 +1,5 @@
 import com.mst.db.Application;
+import com.mst.db.domain.UserAuth;
 import com.mst.db.domain.UserInfo;
 import com.mst.db.service.UserService;
 import org.junit.Test;
@@ -20,7 +21,22 @@ public class UserServiceTest {
     public void  addUser(){
         UserInfo userInfo=new UserInfo();
         userInfo.setCreateTime(LocalDateTime.now());
-        userService.addUserByRegist(userInfo);
+        UserAuth userAuth=new UserAuth();
+        userService.addUserByRegistEmail(userInfo,userAuth);
+    }
+    @Test
+    public void  getUserInfoByID(){
+        UserInfo userInfo=new UserInfo();
+        userInfo.setId(1);
+        userInfo= userService.getUserInfoByID(userInfo);
+        System.out.println(userInfo.getCreateTime());
+    }
+    @Test
+    public void  getUserAuthByIdentifier(){
+        UserAuth userAuth=new UserAuth();
+        userAuth.setIdentifier("xxxx");
+        userAuth= userService.getUserAuthByIdentifier(userAuth);
+        System.out.println(userAuth.getIdentityType());
     }
 
 

@@ -5,15 +5,13 @@ spring:
     encoding: UTF-8
 
 server:
-  port: 8080
+  port: 8888
 
 logging:
   level:
     root:  ERROR
     org.springframework:  ERROR
     org.mybatis:  ERROR
-    org.linlinjava.litemall.core:  ERROR
-    org.linlinjava.litemall.db:  ERROR
-    org.linlinjava.litemall.admin:  ERROR
-    org.linlinjava.litemall.wx:  ERROR
-    org.linlinjava.litemall:  ERROR
+    org.mst.core:  ERROR
+    org.mst.db:  ERROR
+    org.mst.front:  ERROR

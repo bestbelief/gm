@@ -1,6 +1,5 @@
 package com.mst.front.web;
 
-import com.alibaba.druid.sql.visitor.functions.If;
 import com.mst.db.domain.UserAuth;
 import com.mst.db.domain.UserInfo;
 import com.mst.db.service.UserService;
@@ -26,15 +25,15 @@ import java.util.List;
 
 @RestController()
 @EnableAutoConfiguration
-@Api(tags = {"/login"},description = "用户登录模块")
-@RequestMapping(value = "/login")
-public class LoginController {
+@Api(tags = {"/register"},description = "用户注册")
+@RequestMapping(value = "/register")
+public class RegisterController {
     @Resource(name = "UserServiceImpl")
     private UserService userService;
-    @ApiOperation(value = "/emailLogin",notes = "用户通过email进行登录")
-    @RequestMapping(value = "/emailLogin",method = RequestMethod.POST)
+    @ApiOperation(value = "/emailRegister",notes = "用户通过email进行注册")
+    @RequestMapping(value = "/emailRegister",method = RequestMethod.POST)
     private Result emailLogin(@RequestBody @Validated EmailUser emailUser, BindingResult result){
-        List<String>listError=new ArrayList<String>();
+        List<String> listError=new ArrayList<String>();
         if (result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
             for (ObjectError error : list) {
@@ -43,18 +42,21 @@ public class LoginController {
             return new Result(StatuCodeEnum.RETCODE_400,null,listError);
         }
         UserAuth userAuth=new UserAuth();
+        userAuth.setIdentityType(UserIdentityTypeEnum.EMAIL.getValue());
         userAuth.setIdentifier(emailUser.getEmail());
         UserAuth reUserAuth=userService.getUserAuthByIdentifier(userAuth);
-        if(reUserAuth ==null){
-            return new Result(StatuCodeEnum.RETCODE_500,"该用户不存在",null);
+        if(reUserAuth !=null){
+            return new Result(StatuCodeEnum.RETCODE_500,"用户重复注册",null);
         }
         UserInfo userInfo=new UserInfo();
-        userInfo.setId(reUserAuth.getUserId());
-        UserInfo reUserInfo=userService.getUserInfoByID(userInfo);
-        if(!reUserInfo.getPassword().equals(emailUser.getPassword())){
-            return new Result(StatuCodeEnum.RETCODE_500,"密码错误",null);
+        userInfo.setCreateTime(LocalDateTime.now());
+        userInfo.setPassword(emailUser.getPassword());
+        try {
+            userService.addUserByRegistEmail(userInfo,userAuth);
+        } catch (Exception e) {
+            return new Result(StatuCodeEnum.RETCODE_500,null,null);
         }
-        return new Result(StatuCodeEnum.RETCODE_200,null,reUserAuth);
+        return new Result(StatuCodeEnum.RETCODE_200,null,userAuth);
     }
 
 }
